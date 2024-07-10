@@ -1,4 +1,6 @@
 {
+    "name": "fabopt/log-api",
+    "description": "Log Api project",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -11,6 +13,7 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
+        "stof/doctrine-extensions-bundle": "^1.12",
         "symfony/console": "6.4.*",
         "symfony/dotenv": "6.4.*",
         "symfony/flex": "^2",
@@ -19,6 +22,8 @@
         "symfony/yaml": "6.4.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "phpstan/phpstan": "^1.11",
         "roave/security-advisories": "dev-latest",
         "symfony/maker-bundle": "^1.60"
     },
@@ -59,6 +64,15 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "lint": [
+            "@composer validate",
+            "@composer dumpautoload",
+            "@php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --diff -v --dry-run",
+            "@php ./vendor/bin/phpstan analyse --memory-limit=2G"
+        ],
+        "lint:fix": [
+            "@php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v"
         ]
     },
     "conflict": {
