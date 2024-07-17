@@ -33,6 +33,18 @@ docker-compose up -d
 docker-compose exec app composer install
 ```
 
+### Run the migrations and seed script
+
+```
+docker-compose exec app php bin/console doctrine:migrations:migrate
+```
+
+### Import the dummy data
+
+```
+docker-compose exec app php bin/console process-log
+```
+
 
 ### Open browser http://localhost:8888
 
@@ -41,7 +53,7 @@ docker-compose exec app composer install
 
 ```
 Host: 127.0.0.1
-Port: 3308
+Port: 3309
 Username: root
 Password: yourpassword
 ```

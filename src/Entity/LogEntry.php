@@ -29,7 +29,7 @@ class LogEntry
     #[ORM\Column(type: Types::INTEGER)]
     private int $statusCode;
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private \DateTime $timestamp;
+    private \DateTimeImmutable $timestamp;
 
     public function getId(): ?int
     {
@@ -67,12 +67,12 @@ class LogEntry
         return $this;
     }
 
-    public function getTimestamp(): \DateTime
+    public function getTimestamp(): \DateTimeImmutable
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTime $timestamp): self
+    public function setTimestamp(\DateTimeImmutable $timestamp): self
     {
         $this->timestamp = $timestamp;
 

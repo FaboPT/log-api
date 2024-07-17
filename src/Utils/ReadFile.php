@@ -21,11 +21,11 @@ class ReadFile
         $logEntries = [];
 
         while (($line = fgets($handle)) !== false) {
+            $line = self::removeBOM($line);
             // Skip empty lines and lines that are comments
             if ('' === trim($line)) {
                 continue;
             }
-
             // Parse the log line
             $logEntry = self::parseLogLine($line);
             if ($logEntry) {
@@ -41,12 +41,11 @@ class ReadFile
     private static function parseLogLine(bool|string $line): ?LogEntry
     {
         $pattern = '/^(?P<serviceName>[\w-]+) - - \[(?P<timestamp>[^\]]+)\] "(?P<method>\w+) (?P<url>[^"]+) HTTP\/1\.1" (?P<statusCode>\d+)/';
-
         if (preg_match($pattern, $line, $matches)) {
             $logEntry = new LogEntry();
             $logEntry->setServiceName($matches['serviceName']);
             $logEntry->setStatusCode((int) $matches['statusCode']);
-            $logEntry->setTimestamp(\DateTime::createFromFormat('d/M/Y:H:i:s O', $matches['timestamp']));
+            $logEntry->setTimestamp(\DateTimeImmutable::createFromFormat('d/M/Y:H:i:s O', $matches['timestamp']));
             $logEntry->setMethod($matches['method']);
             $logEntry->setUrl($matches['url']);
 
@@ -55,5 +54,14 @@ class ReadFile
 
         // Return null if the line does not match the expected format
         return null;
+    }
+
+    private static function removeBOM(false|string $line): string
+    {
+        if (str_starts_with($line, "\u{FEFF}")) {
+            return substr($line, 3);
+        }
+
+        return $line;
     }
 }

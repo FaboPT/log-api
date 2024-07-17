@@ -28,14 +28,14 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - meeting-room-app
+      - log-api
     volumes:
       - mysql_data:/var/lib/mysql:rw
   app:
     build:
       context: ./
       dockerfile: docker-dev/Dockerfile
-    container_name: we_log_api
+    container_name: web_log_api
     working_dir: /var/www
     volumes:
       - ./:/var/www:delegated
